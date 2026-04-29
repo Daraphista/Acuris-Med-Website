@@ -4,6 +4,7 @@ import { Send, CheckCircle } from 'lucide-react';
 
 export default function LeadForm() {
   const [formState, setFormState] = useState<'idle' | 'loading' | 'success'>('idle');
+  const [result, setResult] = useState('');
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -11,15 +12,44 @@ export default function LeadForm() {
     specialty: ''
   });
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setFormState('loading');
-    
-    // Simulate API call
-    setTimeout(() => {
-      setFormState('success');
-      // Placeholder for Webhook URL logic: fetch('MY_WEBHOOK_URL', { method: 'POST', body: JSON.stringify(formData) })
-    }, 1500);
+    setResult('Sending....');
+
+    const form = e.currentTarget;
+    const formDataToSend = new FormData(form);
+    formDataToSend.append('access_key', 'a9c5689f-d4b3-4ab4-8789-38e63028536b');
+
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: formDataToSend
+      });
+
+      const data = await response.json();
+      console.log('Web3Forms response', response.status, data);
+
+      if (response.ok && data.success) {
+        setFormState('success');
+        setResult('Form Submitted Successfully');
+        form.reset();
+        setFormData({ name: '', email: '', hospital: '', specialty: '' });
+      } else {
+        const errorMessage =
+          data?.message || data?.error || 'Error submitting form. Please try again.';
+        setFormState('idle');
+        setResult(errorMessage);
+      }
+    } catch (error) {
+      console.error('Web3Forms submission failed', error);
+      setFormState('idle');
+      setResult(
+        error instanceof Error
+          ? error.message
+          : 'Error submitting form. Please try again.'
+      );
+    }
   };
 
   if (formState === 'success') {
@@ -76,6 +106,7 @@ export default function LeadForm() {
               <input
                 required
                 type="text"
+                name="name"
                 placeholder="Dr. Juan Dela Cruz"
                 className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:bg-white focus:border-secondary focus:ring-4 focus:ring-sky-100 outline-none transition-all font-medium"
                 value={formData.name}
@@ -87,6 +118,7 @@ export default function LeadForm() {
               <input
                 required
                 type="email"
+                name="email"
                 placeholder="doctor@hospital.com.ph"
                 className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:bg-white focus:border-secondary focus:ring-4 focus:ring-sky-100 outline-none transition-all font-medium"
                 value={formData.email}
@@ -99,6 +131,7 @@ export default function LeadForm() {
                 <input
                   required
                   type="text"
+                  name="hospital"
                   placeholder="SLMC"
                   className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:bg-white focus:border-secondary focus:ring-4 focus:ring-sky-100 outline-none transition-all font-medium"
                   value={formData.hospital}
@@ -110,6 +143,7 @@ export default function LeadForm() {
                 <input
                   required
                   type="text"
+                  name="specialty"
                   placeholder="Cardiology"
                   className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:bg-white focus:border-secondary focus:ring-4 focus:ring-sky-100 outline-none transition-all font-medium"
                   value={formData.specialty}
@@ -132,6 +166,9 @@ export default function LeadForm() {
                 </>
               )}
             </button>
+            {result ? (
+              <p className="text-sm text-center text-slate-600 mt-3">{result}</p>
+            ) : null}
             <p className="text-[10px] font-bold text-slate-400 text-center mt-6 uppercase tracking-widest leading-loose">
               Data protected under DPA 2012 by Acuris Med AI Security.
             </p>
