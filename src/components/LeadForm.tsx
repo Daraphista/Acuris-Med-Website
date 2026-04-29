@@ -12,44 +12,30 @@ export default function LeadForm() {
     specialty: ''
   });
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxYGOLhLG6gdLGNlEjYKJrD8dSKZFRWZ1-Wxo0WqEtD_6aA96t0_RLfzks6ajS-JwGYGg/exec';
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    if (APPS_SCRIPT_URL.includes('PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE')) {
+      e.preventDefault();
+      setFormState('idle');
+      setResult('Please paste your Google Apps Script web app URL in LeadForm.tsx.');
+      return;
+    }
+
     e.preventDefault();
     setFormState('loading');
-    setResult('Sending....');
+    setResult('Sending...');
 
     const form = e.currentTarget;
-    const formDataToSend = new FormData(form);
-    formDataToSend.append('access_key', 'a9c5689f-d4b3-4ab4-8789-38e63028536b');
+    form.submit();
+  };
 
-    try {
-      const response = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        body: formDataToSend
-      });
+  const handleIframeLoad = () => {
+    if (formState !== 'loading') return;
 
-      const data = await response.json();
-      console.log('Web3Forms response', response.status, data);
-
-      if (response.ok && data.success) {
-        setFormState('success');
-        setResult('Form Submitted Successfully');
-        form.reset();
-        setFormData({ name: '', email: '', hospital: '', specialty: '' });
-      } else {
-        const errorMessage =
-          data?.message || data?.error || 'Error submitting form. Please try again.';
-        setFormState('idle');
-        setResult(errorMessage);
-      }
-    } catch (error) {
-      console.error('Web3Forms submission failed', error);
-      setFormState('idle');
-      setResult(
-        error instanceof Error
-          ? error.message
-          : 'Error submitting form. Please try again.'
-      );
-    }
+    setFormState('success');
+    setResult('Form Submitted Successfully');
+    setFormData({ name: '', email: '', hospital: '', specialty: '' });
   };
 
   if (formState === 'success') {
@@ -100,13 +86,20 @@ export default function LeadForm() {
         </div>
 
         <div className="bg-white p-10 md:p-12 rounded-[2.5rem] shadow-[0_20px_50px_rgba(15,23,42,0.08)] border border-slate-100">
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form
+            onSubmit={handleSubmit}
+            action={APPS_SCRIPT_URL}
+            method="POST"
+            target="lead-form-iframe"
+            className="space-y-6"
+          >
+            <input type="hidden" name="subject" value="New Acuris Med AI Lead" />
             <div className="space-y-2">
               <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block px-1">Full Name</label>
               <input
                 required
-                type="text"
                 name="name"
+                type="text"
                 placeholder="Dr. Juan Dela Cruz"
                 className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:bg-white focus:border-secondary focus:ring-4 focus:ring-sky-100 outline-none transition-all font-medium"
                 value={formData.name}
@@ -117,8 +110,8 @@ export default function LeadForm() {
               <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block px-1">Professional Email</label>
               <input
                 required
-                type="email"
                 name="email"
+                type="email"
                 placeholder="doctor@hospital.com.ph"
                 className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:bg-white focus:border-secondary focus:ring-4 focus:ring-sky-100 outline-none transition-all font-medium"
                 value={formData.email}
@@ -130,25 +123,25 @@ export default function LeadForm() {
                 <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block px-1">Hospital/Clinic</label>
                 <input
                   required
-                  type="text"
-                  name="hospital"
-                  placeholder="SLMC"
-                  className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:bg-white focus:border-secondary focus:ring-4 focus:ring-sky-100 outline-none transition-all font-medium"
-                  value={formData.hospital}
-                  onChange={(e) => setFormData({...formData, hospital: e.target.value})}
-                />
+                name="hospital"
+                type="text"
+                placeholder="SLMC"
+                className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:bg-white focus:border-secondary focus:ring-4 focus:ring-sky-100 outline-none transition-all font-medium"
+                value={formData.hospital}
+                onChange={(e) => setFormData({...formData, hospital: e.target.value})}
+              />
               </div>
               <div className="space-y-2">
                 <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block px-1">Specialty</label>
                 <input
                   required
-                  type="text"
-                  name="specialty"
-                  placeholder="Cardiology"
-                  className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:bg-white focus:border-secondary focus:ring-4 focus:ring-sky-100 outline-none transition-all font-medium"
-                  value={formData.specialty}
-                  onChange={(e) => setFormData({...formData, specialty: e.target.value})}
-                />
+                name="specialty"
+                type="text"
+                placeholder="Cardiology"
+                className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:bg-white focus:border-secondary focus:ring-4 focus:ring-sky-100 outline-none transition-all font-medium"
+                value={formData.specialty}
+                onChange={(e) => setFormData({...formData, specialty: e.target.value})}
+              />
               </div>
             </div>
             
@@ -173,6 +166,12 @@ export default function LeadForm() {
               Data protected under DPA 2012 by Acuris Med AI Security.
             </p>
           </form>
+          <iframe
+            name="lead-form-iframe"
+            title="Lead form submit target"
+            className="hidden"
+            onLoad={handleIframeLoad}
+          />
         </div>
       </div>
     </section>
