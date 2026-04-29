@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  /* Colors - Professional Polish Palette */
+  --color-background: #f8fafc;
+  --color-surface: #ffffff;
+  --color-surface-dim: #f1f5f9;
+  --color-surface-bright: #ffffff;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f8fafc;
+  --color-surface-container: #f1f5f9;
+  --color-surface-container-high: #e2e8f0;
+  --color-surface-container-highest: #cbd5e1;
+  --color-on-surface: #0f172a;
+  --color-on-surface-variant: #64748b;
+  --color-inverse-surface: #0f172a;
+  --color-inverse-on-surface: #f8fafc;
+  --color-outline: #94a3b8;
+  --color-outline-variant: #e2e8f0;
+  
+  --color-primary: #0f172a;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #1e293b;
+  
+  --color-secondary: #0ea5e9;
+  --color-on-secondary: #ffffff;
+  
+  --color-brand-sky: #0ea5e9;
+  --color-brand-sky-bg: #f0f9ff;
+  --color-action-blue: #0ea5e9;
+  --color-action-blue-hover: #0284c7;
+
+  /* Typography */
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  
+  /* Radii */
+  --radius-default: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-3xl: 2rem;
+  --radius-full: 9999px;
+}
+
+@layer base {
+  body {
+    @apply bg-background text-on-surface font-sans;
+  }
+}
+
+@layer components {
+  .container-max {
+    @apply max-w-7xl mx-auto px-10;
+  }
+  
+  .h1 { @apply text-4xl font-extrabold leading-[1.1] tracking-tight md:text-6xl; }
+  .h2 { @apply text-2xl font-bold leading-tight tracking-tight md:text-3xl; }
+  .h3 { @apply text-xl font-bold; }
+  .body-lg { @apply text-lg font-normal leading-relaxed text-slate-500; }
+  .body-md { @apply text-sm font-medium leading-normal; }
+  .label-caps { @apply text-[11px] font-bold uppercase tracking-wider leading-none text-slate-400; }
+}
+
+/* Custom glow animation for the demo button */
+@keyframes pulse-glow {
+  0% { box-shadow: 0 0 0 0 rgba(14, 165, 233, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(14, 165, 233, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(14, 165, 233, 0); }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s infinite;
+}
