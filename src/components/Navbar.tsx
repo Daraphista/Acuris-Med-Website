@@ -6,12 +6,7 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   const navLinks = [
-    { name: 'Home', href: '#' },
-    { name: 'About', href: '#about' },
-    { name: 'Services', href: '#services' },
-    { name: 'Portfolio', href: '#portfolio' },
-    { name: 'Blog', href: '#blog' },
-    { name: 'Contact', href: '#contact' },
+    {},
   ];
 
   return (
@@ -33,7 +28,7 @@ export default function Navbar() {
 
         {/* Desktop Links */}
         <div className="hidden md:flex items-center gap-12">
-          {navLinks.map((link) => (
+          {/* {navLinks.map((link) => (
             <a
               key={link.name}
               href={link.href}
@@ -41,7 +36,7 @@ export default function Navbar() {
             >
               {link.name}
             </a>
-          ))}
+          ))} */}
           <a
             href="#demo"
             className="bg-primary text-white px-6 py-2.5 rounded-full font-bold text-sm hover:bg-slate-800 transition-all shadow-sm animate-pulse-glow"
