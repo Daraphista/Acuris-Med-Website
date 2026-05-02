@@ -16,7 +16,7 @@ export default function Navbar() {
         <div className="flex items-center gap-6">
           <div className="w-14 h-14 flex items-center justify-center bg-primary text-white rounded-lg shadow-sm overflow-hidden border border-slate-200">
             <img 
-              src="https://lh3.googleusercontent.com/aida/ADBb0ui-CBFiJrT-yMleHrNrRjcdkJfvUGdAudBR3x-3lgb9EaAIE62gW8Yx2mgoKi75bmEV8kQtZ8iCdl_UqfD6-t0RS-luowzz5YTUKWd9RUzqHegLo682Q4DrnsKAOz3zxt0kkibcj6YoT9ydcdU2-r46cCx6TFQoev2FRaLTjPSWCukPCRaw736gXaJ9vWn2TBR8wWfjmXTN0UyVhiqZtDIFtUCTjdmsIkSdtyJ3SyWUyUNw8FFvZuRBCFM-odSkGSqh6i-uopzbcw" 
+              src="/logo.png" 
               alt="Acuris Logo" 
               className="w-full h-full object-cover"
             />
