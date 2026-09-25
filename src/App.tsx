@@ -21,7 +21,6 @@ export default function App() {
         <Stats />
         <Features />
         <Calculator />
-        <Team />
         <LeadForm />
       </main>
       <Footer />
