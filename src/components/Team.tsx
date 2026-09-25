@@ -76,31 +76,6 @@ export default function Team() {
         { name: 'Instagram', icon: <Instagram size={14} />, href: 'https://www.instagram.com/acurismed.ai' },
       ]
     },
-    {
-      name: 'Anthony Calpe',
-      role: 'Chief Sales Officer',
-      desc: 'Empowering physicians with the right tools through client-focused solutions and relationship management.',
-      image: '/Anthony_Calpe2.jpg.png',
-      fallbackImage: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&h=400&fit=crop',
-      position: 'top',
-      socials: [
-        { name: 'LinkedIn', icon: <Linkedin size={14} />, href: 'https://www.linkedin.com/company/acurismed-ai' },
-        { name: 'Facebook', icon: <Facebook size={14} />, href: 'https://web.facebook.com/profile.php?id=61588965596387' },
-        { name: 'Instagram', icon: <Instagram size={14} />, href: 'https://www.instagram.com/acurismed.ai' },
-      ]
-    },
-    {
-      name: 'Reymian Joshua A. Cuico',
-      role: 'Head of HR & Admin',
-      desc: 'Fostering a culture of innovation and excellence while managing our growing human capital and infrastructure.',
-      image: '/Reymian_Cuico.jpg',
-      fallbackImage: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=400&h=400&fit=crop',
-      socials: [
-        { name: 'LinkedIn', icon: <Linkedin size={14} />, href: 'https://www.linkedin.com/company/acurismed-ai' },
-        { name: 'Facebook', icon: <Facebook size={14} />, href: 'https://web.facebook.com/profile.php?id=61588965596387' },
-        { name: 'Instagram', icon: <Instagram size={14} />, href: 'https://www.instagram.com/acurismed.ai' },
-      ]
-    },
   ];
 
   return (
